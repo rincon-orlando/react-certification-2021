@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Container,
   BurgerButton,
   Search,
   RightHolder,
@@ -9,7 +8,7 @@ import {
 } from './Header.styles';
 
 const Header = () => (
-  <Container>
+  <>
     <BurgerButton
       type="image"
       src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
@@ -25,7 +24,7 @@ const Header = () => (
         alt=""
       />
     </RightHolder>
-  </Container>
+  </>
 );
 
 export default Header;
