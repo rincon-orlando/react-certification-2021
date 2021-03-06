@@ -7,14 +7,22 @@ import {
   ProfileButton,
 } from './Header.styles';
 
-const Header = () => (
+const Header = ({ searchVideo }) => (
   <>
     <BurgerButton
       type="image"
       src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
       alt=""
     />
-    <Search placeholder="Type something cool" />
+    <Search
+      placeholder="Type something cool"
+      onKeyPress={(e) => {
+        if (e.key === 'Enter') {
+          searchVideo(e.target.value);
+          // e.preventDefault();
+        }
+      }}
+    />
     <RightHolder>
       <ToggleButton id="darkMode" type="checkbox" />
       <span>Dark Mode</span>

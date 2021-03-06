@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { List } from './VideoList.styles';
 import VideoCard from '../VideoCard';
-import { getVisibleVideos } from '../../utils/videos';
+import useYouTubeSearchApi from '../../utils/hooks/youtube-api';
+import AppContext from '../../providers/AppContext';
 
-const VideoList = ({ title, items, filter }) => {
-  const visibleItems = getVisibleVideos(items, filter);
+const VideoList = ({ searchTerm, onClickVideoHandler }) => {
+  const [videoList, setVideoList] = useState([]);
+  // TODO: Do something meaningful while loading
+  const { youTubeKey } = useContext(AppContext);
+  const [isLoading, remoteVideoList] = useYouTubeSearchApi(
+    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${youTubeKey}`,
+    searchTerm
+  );
+
+  useEffect(() => {
+    setVideoList(remoteVideoList);
+  }, [remoteVideoList]);
 
   return (
     <List>
-      {visibleItems.map(({ id, snippet }) => (
+      {videoList.map(({ id, snippet }) => (
         <VideoCard
-          thumbnail={snippet.thumbnails.medium.url}
           key={id.videoId}
+          thumbnail={snippet.thumbnails.medium.url}
           title={snippet.title}
-          body={snippet.description}
+          description={snippet.description}
+          onClickVideoHandler={onClickVideoHandler}
+          videoId={id.videoId}
         />
       ))}
     </List>
