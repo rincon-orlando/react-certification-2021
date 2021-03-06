@@ -8,7 +8,7 @@ const VideoList = ({ searchTerm, onClickVideoHandler }) => {
   const [videoList, setVideoList] = useState([]);
   // TODO: Do something meaningful while loading
   const { youTubeKey } = useContext(AppContext);
-  const [isLoading, remoteVideoList] = useYouTubeSearchApi(
+  const [, remoteVideoList] = useYouTubeSearchApi(
     `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${youTubeKey}`,
     searchTerm
   );

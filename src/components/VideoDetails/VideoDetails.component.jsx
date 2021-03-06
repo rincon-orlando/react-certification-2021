@@ -17,7 +17,7 @@ const VideoDetails = ({ videoId, onClickVideoHandler }) => {
     AppContext
   );
   // TODO: Do something meaningful while loading
-  const [isLoading, remoteRelatedVideoList] = useYouTubeSearchApi(
+  const [, remoteRelatedVideoList] = useYouTubeSearchApi(
     `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=${videoId}&type=video&key=${youTubeKey}`,
     videoId
   );
