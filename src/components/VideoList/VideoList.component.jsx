@@ -1,29 +1,35 @@
-import React from 'react';
-import { Container, Title, List } from './VideoList.styles';
-import Header from '../Header';
+import React, { useState, useEffect, useContext } from 'react';
+import { List } from './VideoList.styles';
 import VideoCard from '../VideoCard';
-import { getVisibleVideos } from '../../utils/videos';
+import useYouTubeSearchApi from '../../utils/hooks/youtube-api';
+import AppContext from '../../providers/AppContext';
 
-const VideoList = ({ title, items, filter }) => {
-  const visibleItems = getVisibleVideos(items, filter);
+const VideoList = ({ searchTerm, onClickVideoHandler }) => {
+  const [videoList, setVideoList] = useState([]);
+  // TODO: Do something meaningful while loading
+  const { youTubeKey } = useContext(AppContext);
+  const [, remoteVideoList] = useYouTubeSearchApi(
+    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${youTubeKey}`,
+    searchTerm
+  );
+
+  useEffect(() => {
+    setVideoList(remoteVideoList);
+  }, [remoteVideoList]);
 
   return (
-    <Container>
-      <Header />
-      <Title>{title}</Title>
-      <List>
-        {visibleItems
-          .filter((item) => item.id.kind !== 'youtube#channel')
-          .map(({ id, snippet }) => (
-            <VideoCard
-              thumbnail={snippet.thumbnails.medium.url}
-              key={id.videoId}
-              title={snippet.title}
-              body={snippet.description}
-            />
-          ))}
-      </List>
-    </Container>
+    <List>
+      {videoList.map(({ id, snippet }) => (
+        <VideoCard
+          key={id.videoId}
+          thumbnail={snippet.thumbnails.medium.url}
+          title={snippet.title}
+          description={snippet.description}
+          onClickVideoHandler={onClickVideoHandler}
+          videoId={id.videoId}
+        />
+      ))}
+    </List>
   );
 };
 

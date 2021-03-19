@@ -11,8 +11,8 @@ export const Container = styled.div`
 
 export const Title = styled.h1``;
 
-export const Body = styled.p``;
+export const Description = styled.p``;
 
-export const Preview = styled.img`
+export const Thumbnail = styled.img`
   width: 100%;
 `;

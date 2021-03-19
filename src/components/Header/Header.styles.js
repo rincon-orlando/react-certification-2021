@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
-
 export const Search = styled.input``;
 
 export const RightHolder = styled.span`
