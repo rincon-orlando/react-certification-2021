@@ -4,10 +4,10 @@ import VideoCard from '../VideoCard';
 import useYouTubeSearchApi from '../../utils/hooks/youtube-api';
 import AppContext from '../../providers/AppContext';
 
-const VideoList = ({ searchTerm, onClickVideoHandler }) => {
+const VideoList = () => {
   const [videoList, setVideoList] = useState([]);
-  // TODO: Do something meaningful while loading
-  const { youTubeKey } = useContext(AppContext);
+  const { searchTerm, youTubeKey } = useContext(AppContext);
+  // TODO: Do something meaninful while loading
   const [, remoteVideoList] = useYouTubeSearchApi(
     `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${youTubeKey}`,
     searchTerm
@@ -19,16 +19,19 @@ const VideoList = ({ searchTerm, onClickVideoHandler }) => {
 
   return (
     <List>
-      {videoList.map(({ id, snippet }) => (
-        <VideoCard
-          key={id.videoId}
-          thumbnail={snippet.thumbnails.medium.url}
-          title={snippet.title}
-          description={snippet.description}
-          onClickVideoHandler={onClickVideoHandler}
-          videoId={id.videoId}
-        />
-      ))}
+      {videoList.map(
+        ({ id, snippet }) =>
+          id &&
+          snippet && (
+            <VideoCard
+              key={id.videoId}
+              thumbnail={snippet && snippet.thumbnails.medium.url}
+              title={snippet && snippet.title}
+              description={snippet && snippet.description}
+              videoId={id.videoId}
+            />
+          )
+      )}
     </List>
   );
 };
