@@ -6,11 +6,11 @@ import AppContext from '../../providers/AppContext';
 
 const VideoList = () => {
   const [videoList, setVideoList] = useState([]);
-  const { searchTerm, youTubeKey } = useContext(AppContext);
+  const { state } = useContext(AppContext);
   // TODO: Do something meaninful while loading
   const [, remoteVideoList] = useYouTubeSearchApi(
-    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${youTubeKey}`,
-    searchTerm
+    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${state.searchTerm}&key=${state.youTubeKey}`,
+    state.searchTerm
   );
 
   useEffect(() => {

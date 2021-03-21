@@ -15,16 +15,11 @@ import { useParams } from 'react-router-dom';
 const VideoDetails = () => {
   const [relatedVideoList, setRelatedVideoList] = useState([]);
   const { id: urlVideoId } = useParams();
-  const {
-    selectedVideoId,
-    selectedVideoTitle,
-    selectedVideoDescription,
-    youTubeKey,
-  } = useContext(AppContext);
-  const videoId = selectedVideoId || urlVideoId;
+  const { state } = useContext(AppContext);
+  const videoId = state.currentVideo.videoId || urlVideoId;
   // TODO: Do something meaningful while loading
   const [, remoteRelatedVideoList] = useYouTubeSearchApi(
-    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=${videoId}&type=video&key=${youTubeKey}`,
+    `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&relatedToVideoId=${videoId}&type=video&key=${state.youTubeKey}`,
     videoId
   );
 
@@ -41,8 +36,8 @@ const VideoDetails = () => {
           src={`http://www.youtube.com/embed/${videoId}`}
           frameBorder="0"
         />
-        <Title>{selectedVideoTitle}</Title>
-        <Description>{selectedVideoDescription}</Description>
+        <Title>{state.currentVideo.videoTitle}</Title>
+        <Description>{state.currentVideo.description}</Description>
       </LeftPane>
       <RightPane>
         {relatedVideoList.map(

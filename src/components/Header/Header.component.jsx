@@ -10,7 +10,7 @@ import AppContext from '../../providers/AppContext';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const Header = () => {
-  const { searchTerm, setSearchTerm } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const history = useHistory();
   const location = useLocation();
 
@@ -21,7 +21,7 @@ const Header = () => {
       console.debug('Navigating to home page');
       history.push('/');
     }
-    setSearchTerm(searchTerm);
+    dispatch({ type: 'search', payload: searchTerm });
   };
 
   return (
@@ -32,12 +32,11 @@ const Header = () => {
         alt=""
       />
       <Search
-        defaultValue={searchTerm}
+        defaultValue={state.searchTerm}
         placeholder="Type something cool"
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
             updateSearchTerm(e.target.value);
-            // e.preventDefault();
           }
         }}
       />

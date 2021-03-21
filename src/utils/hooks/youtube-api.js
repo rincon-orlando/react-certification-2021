@@ -6,7 +6,7 @@ import AppContext from '../../providers/AppContext';
 const useYouTubeSearchApi = (url, dependency) => {
   const [isLoading, setIsLoading] = useState(false);
   const [videoList, setVideoList] = useState([]);
-  const { returnMockedResults } = useContext(AppContext);
+  const { state } = useContext(AppContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ const useYouTubeSearchApi = (url, dependency) => {
       setIsLoading(true);
       try {
         let items = mockedData.items;
-        if (!returnMockedResults) {
+        if (!state.returnMockedResults) {
           const response = await fetch(url);
           const jsonResponse = await response.json();
           items = jsonResponse.items;
@@ -29,7 +29,7 @@ const useYouTubeSearchApi = (url, dependency) => {
     };
 
     fetchData();
-  }, [dependency, returnMockedResults, url]);
+  }, [dependency, state.returnMockedResults, url]);
   return [isLoading, videoList];
 };
 
