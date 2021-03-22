@@ -5,6 +5,8 @@ export const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
+  background: ${(props) => (props.darkTheme ? 'black' : 'white')};
+  color: ${(props) => (props.darkTheme ? 'white' : 'black')};
 `;
 
 export const LeftPane = styled.div`

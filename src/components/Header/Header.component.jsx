@@ -1,13 +1,9 @@
 import React, { useContext } from 'react';
-import {
-  BurgerButton,
-  Search,
-  RightHolder,
-  ToggleButton,
-  ProfileButton,
-} from './Header.styles';
+import { Button, Search, RightHolder } from './Header.styles';
 import AppContext from '../../providers/AppContext';
 import { useHistory, useLocation } from 'react-router-dom';
+import { IoMdMoon as Moon, IoMdSunny as Sun } from 'react-icons/io';
+import { FaUserSecret as User, FaHamburger as BurgerIcon } from 'react-icons/fa';
 
 const Header = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -26,12 +22,11 @@ const Header = () => {
 
   return (
     <>
-      <BurgerButton
-        type="image"
-        src="https://cdn4.iconfinder.com/data/icons/wirecons-free-vector-icons/32/menu-alt-512.png"
-        alt=""
-      />
+      <Button darkTheme={state.darkTheme}>
+        <BurgerIcon />
+      </Button>
       <Search
+        darkTheme={state.darkTheme}
         defaultValue={state.searchTerm}
         placeholder="Type something cool"
         onKeyPress={(e) => {
@@ -41,13 +36,15 @@ const Header = () => {
         }}
       />
       <RightHolder>
-        <ToggleButton id="darkMode" type="checkbox" />
-        <span>Dark Mode</span>
-        <ProfileButton
-          type="image"
-          src="https://img2.freepng.es/20180422/wee/kisspng-computer-icons-user-profile-login-clip-art-my-account-icon-5adc5dd8d9ca10.9425519815243913848921.jpg"
-          alt=""
-        />
+        <Button
+          darkTheme={state.darkTheme}
+          onClick={() => dispatch({ type: 'toggle-theme' })}
+        >
+          {state.darkTheme ? <Sun /> : <Moon />}
+        </Button>
+        <Button darkTheme={state.darkTheme}>
+          <User />
+        </Button>
       </RightHolder>
     </>
   );

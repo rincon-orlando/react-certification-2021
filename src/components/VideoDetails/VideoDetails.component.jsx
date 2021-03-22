@@ -28,7 +28,7 @@ const VideoDetails = () => {
   }, [remoteRelatedVideoList]);
 
   return (
-    <Container>
+    <Container darkTheme={state.darkTheme}>
       <LeftPane>
         <VideoPlayer
           id="ytplayer"

@@ -36,7 +36,8 @@ export const AppContextProvider = ({ children }) => {
       description: '',
     },
     youTubeKey: YOUTUBE_KEY,
-    returnMockedResults: true,
+    returnMockedResults: false,
+    darkTheme: false,
   });
 
   return (
