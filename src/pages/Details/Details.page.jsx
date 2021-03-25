@@ -1,19 +1,18 @@
 import React, { useContext } from 'react';
-import { Container, Title } from './Home.styles';
 import Header from '../../components/Header';
-import VideoList from '../../components/VideoList';
+import VideoDetails from '../../components/VideoDetails';
+import { Container } from './Details.styles';
 import AppContext from '../../providers/AppContext';
 
-function HomePage() {
+function DetailsPage() {
   const { state } = useContext(AppContext);
 
   return (
     <Container darkTheme={state.darkTheme}>
       <Header />
-      <Title>Welcome to Orlando's YouTube Client</Title>
-      <VideoList />
+      <VideoDetails />
     </Container>
   );
 }
 
-export default HomePage;
+export default DetailsPage;

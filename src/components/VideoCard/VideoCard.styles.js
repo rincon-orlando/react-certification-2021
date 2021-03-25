@@ -7,6 +7,7 @@ export const Container = styled.div`
   width: 300px;
   margin-bottom: 20px;
   margin: 10px auto;
+  background-color: ${(props) => (props.darkTheme ? 'black' : 'white')};
 `;
 
 export const Title = styled.h1``;
