@@ -34,3 +34,22 @@ export const Title = styled.div`
 `;
 
 export const Description = styled.p``;
+
+export const VideoDescriptionContainer = styled.span`
+  width: 85%;
+  display: inline-block;
+`;
+
+export const FavoritesContainer = styled.span`
+  width: 10%;
+  float: right;
+`;
+
+export const FavoritesButton = styled.button`
+  width: 100%;
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  background: ${(props) => (props.darkTheme ? 'black' : 'white')};
+  color: ${(props) => (props.darkTheme ? 'white' : 'black')};
+`;
