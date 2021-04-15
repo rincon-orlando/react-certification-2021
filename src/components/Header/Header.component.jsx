@@ -1,9 +1,14 @@
 import React, { useContext } from 'react';
-import { Button, Search, RightHolder } from './Header.styles';
+import { Button, Search, RightHolder, StyledLink, UserAvatar } from './Header.styles';
 import AppContext from '../../providers/AppContext';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IoMdMoon as Moon, IoMdSunny as Sun } from 'react-icons/io';
-import { FaUserSecret as User, FaHamburger as BurgerIcon } from 'react-icons/fa';
+import { FaUserSecret as User } from 'react-icons/fa';
+import {
+  REDUCER_SEARCH_ACTION,
+  REDUCER_TOGGLE_THEME_ACTION,
+  REDUCER_LOGOUT_ACTION,
+} from '../../utils/constants';
 
 const Header = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -17,14 +22,11 @@ const Header = () => {
       console.debug('Navigating to home page');
       history.push('/');
     }
-    dispatch({ type: 'search', payload: searchTerm });
+    dispatch({ type: REDUCER_SEARCH_ACTION, payload: searchTerm });
   };
 
   return (
-    <>
-      <Button darkTheme={state.darkTheme}>
-        <BurgerIcon />
-      </Button>
+    <div style={{ height: '40px' }}>
       <Search
         darkTheme={state.darkTheme}
         defaultValue={state.searchTerm}
@@ -38,15 +40,33 @@ const Header = () => {
       <RightHolder>
         <Button
           darkTheme={state.darkTheme}
-          onClick={() => dispatch({ type: 'toggle-theme' })}
+          onClick={() => dispatch({ type: REDUCER_TOGGLE_THEME_ACTION })}
         >
           {state.darkTheme ? <Sun /> : <Moon />}
         </Button>
-        <Button darkTheme={state.darkTheme}>
-          <User />
-        </Button>
+
+        {/* TODO: Move the login/logout actions to a popup instead directly dispatching here. */}
+        {state.authenticated ? (
+          <Button
+            darkTheme={state.darkTheme}
+            onClick={() => dispatch({ type: REDUCER_LOGOUT_ACTION })}
+          >
+            <UserAvatar src={state.currentUser.avatarUrl} />
+          </Button>
+        ) : (
+          <StyledLink
+            to={{
+              pathname: '/login',
+              state: { background: location },
+            }}
+          >
+            <Button darkTheme={state.darkTheme}>
+              <User />
+            </Button>
+          </StyledLink>
+        )}
       </RightHolder>
-    </>
+    </div>
   );
 };
 

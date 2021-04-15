@@ -1,7 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { YOUTUBE_KEY } from '../../utils/constants';
 import { useHistory } from 'react-router-dom';
 import YouTubeAppReducer from '../../state/YouTubeAppReducer';
+import {
+  REDUCER_SELECT_VIDEO_ACTION,
+  REDUCER_LOAD_FROM_STORAGE_ACTION,
+} from '../../utils/constants';
 
 const AppContext = React.createContext({});
 
@@ -15,7 +19,7 @@ export const AppContextProvider = ({ children }) => {
   // state/dispatch pair
   const navigateToVideoDetails = (videoId, title, description) => {
     dispatch({
-      type: 'select-video',
+      type: REDUCER_SELECT_VIDEO_ACTION,
       payload: {
         videoId: videoId,
         title: title,
@@ -38,7 +42,15 @@ export const AppContextProvider = ({ children }) => {
     youTubeKey: YOUTUBE_KEY,
     returnMockedResults: false,
     darkTheme: false,
+    currentUser: null,
+    authenticated: false,
+    favoriteVideos: [],
   });
+
+  // Force an initial load from the local storage
+  useEffect(() => {
+    dispatch({ type: REDUCER_LOAD_FROM_STORAGE_ACTION });
+  }, []);
 
   return (
     <AppContext.Provider value={{ state, dispatch, navigateToVideoDetails }}>
